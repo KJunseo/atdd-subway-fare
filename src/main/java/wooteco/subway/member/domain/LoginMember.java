@@ -1,7 +1,7 @@
 package wooteco.subway.member.domain;
 
 public class LoginMember {
-    private static final LoginMember anonymous = new LoginMember();
+    private static final LoginMember ANONYMOUS = new LoginMember();
 
     private Long id;
     private String email;
@@ -17,11 +17,11 @@ public class LoginMember {
     }
 
     public static LoginMember anonymous() {
-        return anonymous;
+        return ANONYMOUS;
     }
 
     public boolean isAnonymous() {
-        return anonymous.equals(this);
+        return ANONYMOUS.equals(this);
     }
 
     public Long getId() {
