@@ -10,6 +10,7 @@ import wooteco.subway.path.domain.SubwayPath;
 import wooteco.subway.path.domain.fare.Fare;
 import wooteco.subway.path.domain.fare.age.AgeDiscountType;
 import wooteco.subway.path.domain.fare.age.AgeStrategy;
+import wooteco.subway.path.domain.fare.distance.DistanceChain;
 import wooteco.subway.path.dto.PathResponse;
 import wooteco.subway.path.dto.PathResponseAssembler;
 import wooteco.subway.station.application.StationService;
@@ -22,11 +23,13 @@ public class PathService {
     private final LineService lineService;
     private final StationService stationService;
     private final PathFinder pathFinder;
+    private final DistanceChain defaultChain;
 
-    public PathService(LineService lineService, StationService stationService, PathFinder pathFinder) {
+    public PathService(LineService lineService, StationService stationService, PathFinder pathFinder, DistanceChain defaultChain) {
         this.lineService = lineService;
         this.stationService = stationService;
         this.pathFinder = pathFinder;
+        this.defaultChain = defaultChain;
     }
 
     @Transactional(readOnly = true)
@@ -47,6 +50,6 @@ public class PathService {
 
     private Fare generateFare(LoginMember loginMember) {
         AgeStrategy ageStrategy = AgeDiscountType.strategy(loginMember);
-        return new Fare(ageStrategy);
+        return new Fare(defaultChain, ageStrategy);
     }
 }
